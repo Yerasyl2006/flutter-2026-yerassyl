@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -71,6 +73,20 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.runAsync(() async {
+      final textFont = FontLoader('Roboto')..addFont(
+        File(
+          'C:/Windows/Fonts/segoeui.ttf',
+        ).readAsBytes().then((b) => ByteData.view(b.buffer)),
+      );
+      final icons = FontLoader('MaterialIcons')..addFont(
+        File(
+          'C:/dev/flutter/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf',
+        ).readAsBytes().then((b) => ByteData.view(b.buffer)),
+      );
+      await textFont.load();
+      await icons.load();
+    });
     final key = GlobalKey();
     final cart =
         Cart()
