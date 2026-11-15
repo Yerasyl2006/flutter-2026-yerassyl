@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../core/storage/secure_store.dart';
 import 'user.dart';
+import 'widgets/copy_token_button.dart';
 
 class UserDetailScreen extends StatelessWidget {
   const UserDetailScreen({required this.user, super.key});
@@ -67,22 +66,7 @@ class UserDetailScreen extends StatelessWidget {
           _field('Company', user.company.name),
           _field('Catchphrase', user.company.catchPhrase),
           _field('Business', user.companyBs),
-          if (kDebugMode)
-            TextButton(
-              onPressed: () async {
-                try {
-                  final token = await context.read<SecureStore>().readToken();
-                  if (token == null || !context.mounted) return;
-                  await Clipboard.setData(ClipboardData(text: token));
-                  if (context.mounted) _message(context, 'Demo token copied.');
-                } catch (_) {
-                  if (context.mounted) {
-                    _message(context, 'Could not copy the demo token.');
-                  }
-                }
-              },
-              child: const Text('Copy token to clipboard'),
-            ),
+          if (kDebugMode) const CopyTokenButton(),
         ],
       ),
     );
