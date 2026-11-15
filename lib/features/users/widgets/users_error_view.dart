@@ -12,8 +12,10 @@ class UsersErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     final (text, canRetry) = switch (error) {
       NoConnectionException() => ('No connection', true),
-      NotFoundException() || UnauthorizedException() =>
-        ('This request could not be completed.', false),
+      NotFoundException() || UnauthorizedException() => (
+        'This request could not be completed.',
+        false,
+      ),
       ServerException(:final status) => ('Server error ($status).', true),
       BadResponseException() => ('The server returned unreadable data.', false),
     };

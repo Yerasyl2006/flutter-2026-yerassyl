@@ -29,7 +29,11 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         Provider.value(value: store),
-        Provider(create: (_) => api, dispose: (_, client) => client.close(), lazy: false),
+        Provider(
+          create: (_) => api,
+          dispose: (_, client) => client.close(),
+          lazy: false,
+        ),
         ChangeNotifierProvider(
           create: (_) => SettingsModel(prefs, dark: dark, city: city),
         ),

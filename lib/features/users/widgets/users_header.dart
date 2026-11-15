@@ -29,10 +29,12 @@ class UsersHeader extends StatelessWidget implements PreferredSizeWidget {
         tooltip: 'Settings',
         icon: const Icon(Icons.settings_outlined),
         onPressed: () async {
-          final cities = {
-            for (final user in items)
-              if (user.address.city.isNotEmpty) user.address.city,
-          }.toList()..sort();
+          final cities =
+              {
+                  for (final user in items)
+                    if (user.address.city.isNotEmpty) user.address.city,
+                }.toList()
+                ..sort();
           await Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (_) => SettingsScreen(cities: cities)),
           );

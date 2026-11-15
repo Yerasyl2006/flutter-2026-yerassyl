@@ -17,9 +17,11 @@ class UserList extends StatelessWidget {
       physics: const AlwaysScrollableScrollPhysics(),
       itemCount: items.isEmpty ? 1 : items.length,
       separatorBuilder: (_, _) => const Divider(height: 1),
-      itemBuilder: (_, index) => items.isEmpty
-          ? const UsersEmptyState()
-          : UserTile(user: items[index]),
+      itemBuilder:
+          (_, index) =>
+              items.isEmpty
+                  ? const UsersEmptyState()
+                  : UserTile(user: items[index]),
     ),
   );
 }

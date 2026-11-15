@@ -65,6 +65,11 @@ class HttpUserRepository implements UserRepository {
     try {
       return User.fromJson(data as Map<String, dynamic>);
     } on TypeError catch (error) {
+      if (data case {
+        'address': {'geo': final Map geo},
+      } when geo['lat'] is! String) {
+        throw BadResponseException('$path: lat is not a String');
+      }
       throw BadResponseException('$path: $error');
     } on FormatException catch (error) {
       throw BadResponseException('$path: ${error.message}');

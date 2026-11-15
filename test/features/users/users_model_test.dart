@@ -10,7 +10,10 @@ void main() {
       final model = UsersModel(FakeUserRepository());
       addTearDown(model.dispose);
       await model.load();
-      expect((model.items.length, model.loading, model.error), (2, false, null));
+      expect(
+        (model.items.length, model.loading, model.error),
+        (2, false, null),
+      );
     });
 
     test('records NoConnectionException and clears loading', () async {

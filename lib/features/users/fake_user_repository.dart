@@ -24,7 +24,10 @@ class FakeUserRepository implements UserRepository {
         zipcode: '92998-3874',
         geo: Geo(lat: -37.3159, lng: 81.1496),
       ),
-      company: (name: 'Romaguera-Crona', catchPhrase: 'Multi-layered client-server neural-net'),
+      company: (
+        name: 'Romaguera-Crona',
+        catchPhrase: 'Multi-layered client-server neural-net',
+      ),
       companyBs: 'harness real-time e-markets',
     ),
     User(
@@ -41,7 +44,10 @@ class FakeUserRepository implements UserRepository {
         zipcode: '90566-7771',
         geo: Geo(lat: -43.9509, lng: -34.4618),
       ),
-      company: (name: 'Deckow-Crist', catchPhrase: 'Proactive didactic contingency'),
+      company: (
+        name: 'Deckow-Crist',
+        catchPhrase: 'Proactive didactic contingency',
+      ),
       companyBs: 'synergize scalable supply-chains',
     ),
   ];

@@ -49,19 +49,19 @@ void main() {
 
   test('HTTP errors take precedence over parsing the JSON body', () async {
     final api = ApiClient(
-        MockClient((request) async {
-          expect(request.headers['accept'], 'application/json');
-          expect(request.headers['authorization'], 'Bearer demo-token');
-          return switch (request.url.path) {
-            '/users/999' => http.Response('{}', 404),
-            '/users/1' => http.Response('invalid', 401),
-            '/users/2' => http.Response('invalid', 503),
-            '/users/3' => http.Response('invalid', 200),
-            '/users/4' => http.Response('{"id":"4"}', 200),
-            _ => http.Response('{}', 200),
-          };
-        }),
-        const _TestStore(),
+      MockClient((request) async {
+        expect(request.headers['accept'], 'application/json');
+        expect(request.headers['authorization'], 'Bearer demo-token');
+        return switch (request.url.path) {
+          '/users/999' => http.Response('{}', 404),
+          '/users/1' => http.Response('invalid', 401),
+          '/users/2' => http.Response('invalid', 503),
+          '/users/3' => http.Response('invalid', 200),
+          '/users/4' => http.Response('{"id":"4"}', 200),
+          _ => http.Response('{}', 200),
+        };
+      }),
+      const _TestStore(),
     );
     addTearDown(api.close);
     final repo = HttpUserRepository(api);
