@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../auth/auth_model.dart';
 import 'settings_model.dart';
+import 'widgets/city_filter.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({required this.cities, super.key});
@@ -57,20 +58,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             value: settings.dark,
             onChanged: (value) async => _save(() => settings.setDark(value)),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: DropdownButtonFormField<String>(
-              value: settings.city ?? '',
-              decoration: const InputDecoration(labelText: 'City filter'),
-              items: [
-                const DropdownMenuItem(value: '', child: Text('All cities')),
-                for (final city in cities)
-                  DropdownMenuItem(value: city, child: Text(city)),
-              ],
-              onChanged:
-                  (city) async =>
-                      _save(() => settings.setCity(city == '' ? null : city)),
-            ),
+          CityFilter(
+            cities: cities,
+            selectedCity: selectedCity,
+            onChanged: (city) async => _save(() => settings.setCity(city)),
           ),
           ListTile(
             leading: const Icon(Icons.logout),
