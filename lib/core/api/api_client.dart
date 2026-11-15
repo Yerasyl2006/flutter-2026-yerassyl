@@ -16,6 +16,8 @@ class ApiClient {
     this.host = 'jsonplaceholder.typicode.com',
   });
 
+  factory ApiClient.live(SecureStore store) => ApiClient(http.Client(), store);
+
   final http.Client _client;
   final SecureStore _store;
   final String host;

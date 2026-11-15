@@ -48,8 +48,7 @@ void main() {
   });
 
   test('HTTP errors take precedence over parsing the JSON body', () async {
-    final repo = UserRepository(
-      ApiClient(
+    final api = ApiClient(
         MockClient((request) async {
           expect(request.headers['accept'], 'application/json');
           expect(request.headers['authorization'], 'Bearer demo-token');
@@ -63,9 +62,9 @@ void main() {
           };
         }),
         const _TestStore(),
-      ),
     );
-    addTearDown(repo.close);
+    addTearDown(api.close);
+    final repo = HttpUserRepository(api);
 
     await expectLater(repo.getById(999), throwsA(isA<NotFoundException>()));
     await expectLater(repo.getById(1), throwsA(isA<UnauthorizedException>()));
@@ -86,7 +85,7 @@ void main() {
     var calls = 0;
     final stall = Completer<http.Response>();
     final model = UsersModel(
-      UserRepository(
+      HttpUserRepository(
         ApiClient(
           MockClient((_) async {
             calls++;
@@ -128,7 +127,7 @@ void main() {
     var posts = 0;
     final response = Completer<http.Response>();
     final model = UsersModel(
-      UserRepository(
+      HttpUserRepository(
         ApiClient(
           MockClient((request) async {
             if (request.method == 'GET') {

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'core/storage/secure_store.dart';
 import 'features/auth/auth_model.dart';
 import 'features/auth/login_screen.dart';
 import 'features/users/user_repository.dart';
@@ -20,9 +19,7 @@ class Session extends StatelessWidget {
     }
     return ChangeNotifierProvider(
       create: (context) {
-        final model = UsersModel(
-          UserRepository.live(context.read<SecureStore>()),
-        );
+        final model = UsersModel(context.read<UserRepository>());
         unawaited(model.load());
         return model;
       },

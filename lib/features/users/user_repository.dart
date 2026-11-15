@@ -1,27 +1,26 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
-
 import '../../core/api/api_client.dart';
 import '../../core/api/api_exception.dart';
-import '../../core/storage/secure_store.dart';
 import 'user.dart';
 import 'users_cache.dart';
 
 typedef UsersResult = ({List<User> items, bool fromCache});
 
-class UserRepository {
-  UserRepository(this._api, {UsersCache cache = const UsersCache()})
-    : _cache = cache;
+abstract interface class UserRepository {
+  Future<UsersResult> getAll();
+  Future<User> getById(int id);
+  Future<User> create(User draft);
+}
 
-  factory UserRepository.live(SecureStore store) =>
-      UserRepository(ApiClient(http.Client(), store));
+class HttpUserRepository implements UserRepository {
+  HttpUserRepository(this._api, {UsersCache cache = const UsersCache()})
+    : _cache = cache;
 
   final ApiClient _api;
   final UsersCache _cache;
 
-  void close() => _api.close();
-
+  @override
   Future<UsersResult> getAll() async {
     try {
       final fresh = await _fetch();
@@ -46,11 +45,13 @@ class UserRepository {
     ];
   }
 
+  @override
   Future<User> getById(int id) async {
     final path = '/users/$id';
     return _user(await _api.get(Uri.https(_api.host, path)), path);
   }
 
+  @override
   Future<User> create(User draft) async {
     const path = '/users';
     final body = await _api.post(

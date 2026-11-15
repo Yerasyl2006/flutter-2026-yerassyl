@@ -65,7 +65,6 @@ class UsersModel extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
-    _repo.close();
     super.dispose();
   }
 }
