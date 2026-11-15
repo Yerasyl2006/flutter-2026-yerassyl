@@ -101,7 +101,7 @@ void main() {
     await tester.pumpWidget(_app(model));
     await model.load();
     await tester.pump();
-    expect(find.text('No network connection.'), findsOneWidget);
+    expect(find.text('No connection'), findsOneWidget);
 
     await tester.tap(find.text('Retry'));
     await tester.pump();
@@ -109,7 +109,7 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.pump(const Duration(milliseconds: 1));
     await tester.pump();
-    expect(find.text('No network connection.'), findsOneWidget);
+    expect(find.text('No connection'), findsOneWidget);
 
     await tester.tap(find.text('Retry'));
     await tester.pumpAndSettle();
