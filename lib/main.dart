@@ -7,6 +7,7 @@ import 'core/api/api_client.dart';
 import 'core/storage/secure_store.dart';
 import 'features/auth/auth_model.dart';
 import 'features/settings/settings_model.dart';
+// import 'features/users/fake_user_repository.dart';
 import 'features/users/user_repository.dart';
 
 Future<void> main() async {
@@ -18,6 +19,7 @@ Future<void> main() async {
   final token = await store.readToken();
   final api = ApiClient.live(store);
   final UserRepository repo = HttpUserRepository(api);
+  // final UserRepository repo = FakeUserRepository();
 
   runApp(
     MultiProvider(
