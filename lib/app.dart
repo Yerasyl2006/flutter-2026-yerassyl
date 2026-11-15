@@ -5,7 +5,9 @@ import 'features/settings/settings_model.dart';
 import 'session.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  const App({required this.signedIn, super.key});
+
+  final Widget signedIn;
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -20,6 +22,6 @@ class App extends StatelessWidget {
     ),
     themeMode:
         context.watch<SettingsModel>().dark ? ThemeMode.dark : ThemeMode.light,
-    home: const Session(),
+    home: Session(signedIn: signedIn),
   );
 }

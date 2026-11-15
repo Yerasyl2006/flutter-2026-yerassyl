@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +11,8 @@ import 'features/auth/auth_model.dart';
 import 'features/settings/settings_model.dart';
 // import 'features/users/fake_user_repository.dart';
 import 'features/users/user_repository.dart';
+import 'features/users/users_model.dart';
+import 'features/users/users_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,13 +30,21 @@ Future<void> main() async {
       providers: [
         Provider.value(value: store),
         Provider(create: (_) => api, dispose: (_, client) => client.close(), lazy: false),
-        Provider<UserRepository>.value(value: repo),
         ChangeNotifierProvider(
           create: (_) => SettingsModel(prefs, dark: dark, city: city),
         ),
         ChangeNotifierProvider(create: (_) => AuthModel(store, token: token)),
       ],
-      child: const App(),
+      child: App(
+        signedIn: ChangeNotifierProvider(
+          create: (_) {
+            final model = UsersModel(repo);
+            unawaited(model.load());
+            return model;
+          },
+          child: const UsersScreen(),
+        ),
+      ),
     ),
   );
 }
