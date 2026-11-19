@@ -1,0 +1,5 @@
+{
+  "API_HOST": "jsonplaceholder.typicode.com",
+  "ENV": "local",
+  "USE_FAKES": false
+}
